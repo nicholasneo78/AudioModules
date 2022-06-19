@@ -30,7 +30,7 @@ class SilenceSplitter():
 
         return chunks
 
-    def batch_silence_split(self, input_dir: str, output_dir: str, manifest_path: str) -> str:
+    def batch_silence_split(self, input_dir: str, output_dir: str, manifest_path: str, orig_sr:int, target_sr:int) -> str:
         '''
         input_dir: the input directory
         output_dir: the output directory
@@ -43,6 +43,7 @@ class SilenceSplitter():
         with open(os.path.join(input_dir, manifest_path), mode='r', encoding='utf-8') as fr, \
             open(os.path.join(output_dir, manifest_path), mode='w', encoding='utf-8') as fw:
             total_num_chunks = 0
+            del_chunks = 0
 
             for idx, line in enumerate(fr.readlines()):
                 if idx % 100 == 0 and idx != 0:
@@ -56,11 +57,21 @@ class SilenceSplitter():
                 for chunk_idx, chunk in enumerate(audio_chunks):
                     chunk_path = orig_path.replace('.wav', f'_{str(chunk_idx)}.wav')
 
+                    # resample the chunk to 16k as it is required in the wav2vec2 format
+                    chunk_16k = librosa.resample(chunk, orig_sr=orig_sr, target_sr=target_sr)
+
                     # export the chunk as a wav file
-                    chunk.export(
+                    chunk_16k.export(
                         os.path.join(output_dir, chunk_path),
                         format = 'wav'
                     )
+
+                    # check if the audio < 1 second, if it is, delete and do not append to the manifest
+                    if librosa.get_duration(filename=os.path.join(output_dir, chunk_path)) < 1.0:
+                        os.remove(os.path.join(output_dir, chunk_path))
+                        del_chunks+=1                
+                        continue
+
                     # replace audio_filepath with chunk path, and its length
                     d['audio_filepath'] = chunk_path
                     d['duration'] = round(
@@ -68,17 +79,22 @@ class SilenceSplitter():
                     fw.write(json.dumps(d) + '\n')
 
         print('total no. of files processed:', idx+1)
-        print('total no. of files produced:', total_num_chunks)
+        print('total no. of files produced:', total_num_chunks-del_chunks)
         
         # returns dataset dir and new manifest file path
         return output_dir, os.path.join(output_dir, manifest_path)
 
-    def __call__(self, input_dir: str, output_dir: str = 'temp', manifest_path: str = 'manifest.json'):
-        return self.batch_silence_split(input_dir, output_dir, manifest_path)
+    def __call__(self, input_dir: str, output_dir: str = 'temp', manifest_path: str = 'manifest.json', orig_sr:int = 8000, target_sr:int = 16000):
+        return self.batch_silence_split(input_dir, output_dir, manifest_path, orig_sr, target_sr)
 
 if __name__ == '__main__':
 
-    LOCAL_DIR = '/home/daniel/projects/AudioModules/test_audio'
-    OUTPUT_DIR = '/home/daniel/projects/AudioModules/test_output'
+    LOCAL_DIR = '/preproc/datasets/mms_batch_1/mms_20220404/CH 73'
+    OUTPUT_DIR = '/preproc/datasets_silence_removed/mms_batch_1/mms_20220404/CH 73'
     s = SilenceSplitter(thresh=16, min_silence_len=500)
     s(LOCAL_DIR, OUTPUT_DIR)
+
+    # LOCAL_DIR = '/home/daniel/Desktop/mms/mms_20220404'
+    # OUTPUT_DIR = '/home/daniel/Desktop/mms/test'
+    # s = SilenceSplitter(thresh=16, min_silence_len=500)
+    # s(LOCAL_DIR, OUTPUT_DIR)
