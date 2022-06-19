@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO,
 
 # gets audio durations from a specific channel via the generated manifest
 class GetAudioInfo:
-    def __init__(self, audio_dir, manifest_dir):
+    def __init__(self, audio_dir: str, manifest_dir: str) -> None:
         self.audio_dir = audio_dir
         self.manifest_dir = manifest_dir
 

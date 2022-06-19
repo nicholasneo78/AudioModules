@@ -1,5 +1,6 @@
 import os
 import json
+import soundfile as sf
 import librosa
 from typing import List
 from pydub import AudioSegment
@@ -18,7 +19,10 @@ class SilenceSplitter():
         '''
         path: string path to the audio file
         '''
+
+        # resample the audio to 16k to fulfil the wav2vec2 framework
         audio = AudioSegment.from_wav(path)
+
         # decibels relative to full scale
         dBFS = audio.dBFS
         silence_thresh = dBFS - self.thresh
@@ -30,7 +34,7 @@ class SilenceSplitter():
 
         return chunks
 
-    def batch_silence_split(self, input_dir: str, output_dir: str, manifest_path: str, orig_sr:int, target_sr:int) -> str:
+    def batch_silence_split(self, input_dir: str, output_dir: str, manifest_path: str)-> str:
         '''
         input_dir: the input directory
         output_dir: the output directory
@@ -57,14 +61,21 @@ class SilenceSplitter():
                 for chunk_idx, chunk in enumerate(audio_chunks):
                     chunk_path = orig_path.replace('.wav', f'_{str(chunk_idx)}.wav')
 
-                    # resample the chunk to 16k as it is required in the wav2vec2 format
-                    chunk_16k = librosa.resample(chunk, orig_sr=orig_sr, target_sr=target_sr)
-
                     # export the chunk as a wav file
-                    chunk_16k.export(
+                    chunk.export(
                         os.path.join(output_dir, chunk_path),
                         format = 'wav'
                     )
+
+                    # read the audio files again to do resampling
+                    speech_array, sr = sf.read(os.path.join(output_dir, chunk_path))
+
+                    # # remove the old audio file
+                    # os.remove(os.path.join(output_dir, chunk_path))
+
+                    # speech_array = speech_array.T
+                    # speech_array_16k = librosa.resample(speech_array, orig_sr=sr, target_sr=16000)
+                    # sf.write(os.path.join(output_dir, chunk_path), speech_array_16k, 16000)
 
                     # check if the audio < 1 second, if it is, delete and do not append to the manifest
                     if librosa.get_duration(filename=os.path.join(output_dir, chunk_path)) < 1.0:
@@ -84,13 +95,13 @@ class SilenceSplitter():
         # returns dataset dir and new manifest file path
         return output_dir, os.path.join(output_dir, manifest_path)
 
-    def __call__(self, input_dir: str, output_dir: str = 'temp', manifest_path: str = 'manifest.json', orig_sr:int = 8000, target_sr:int = 16000):
-        return self.batch_silence_split(input_dir, output_dir, manifest_path, orig_sr, target_sr)
+    def __call__(self, input_dir: str, output_dir: str = 'temp', manifest_path: str = 'manifest.json'):
+        return self.batch_silence_split(input_dir, output_dir, manifest_path)
 
 if __name__ == '__main__':
 
-    LOCAL_DIR = '/preproc/datasets/mms_batch_1/mms_20220404/CH 73'
-    OUTPUT_DIR = '/preproc/datasets_silence_removed/mms_batch_1/mms_20220404/CH 73'
+    LOCAL_DIR = '/preproc/datasets/mms_batch_1/mms_20220404/CH 16'
+    OUTPUT_DIR = '/preproc/datasets_silence_removed/mms_batch_1/mms_20220404/CH 16'
     s = SilenceSplitter(thresh=16, min_silence_len=500)
     s(LOCAL_DIR, OUTPUT_DIR)
 
