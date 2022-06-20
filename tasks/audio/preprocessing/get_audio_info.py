@@ -48,9 +48,9 @@ if __name__ == '__main__':
     MODE = 'one_date' # one_dir or one_date
 
     # other configs
-    dataset_dir = 'datasets'
-    batch = 'mms_batch_1'
-    batch_date = 'mms_20220610'
+    dataset_dir = 'datasets_silence_removed'
+    batch = 'mms_batch_0'
+    batch_date = 'mms_20220304'
 
     # check info for a single directory, specific date and channel
     if MODE == 'one_dir':
