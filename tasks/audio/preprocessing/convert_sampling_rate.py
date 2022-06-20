@@ -11,9 +11,10 @@ logging.basicConfig(level=logging.INFO,
                     datefmt='%H:%M:%S')
 
 class ConvertSamplingRate:
-    def __init__(self, manifest_path: str, data_dir: str, target_sr: int) -> None:
+    def __init__(self, manifest_path: str, input_data_dir: str, output_data_dir: str, target_sr: int) -> None:
         self.manifest_path = manifest_path
-        self.data_dir = data_dir
+        self.input_data_dir = input_data_dir
+        self.output_data_dir = output_data_dir
         self.target_sr = target_sr
 
     def convert(self) -> None:
@@ -23,11 +24,11 @@ class ConvertSamplingRate:
 
                 # get the audio filepath from the manifest file
                 audio_path = d['audio_filepath']
-                speech_array, sr = librosa.load(os.path.join(self.data_dir, audio_path), sr=None)
+                speech_array, sr = librosa.load(os.path.join(self.input_data_dir , audio_path), sr=None)
                 speech_array_16k = librosa.resample(speech_array, orig_sr=sr, target_sr=self.target_sr)
                 
                 # overwrite the sound with the target sample rate
-                sf.write(os.path.join(self.data_dir, audio_path), speech_array_16k, self.target_sr, subtype='FLOAT')
+                sf.write(os.path.join(self.output_data_dir, audio_path), speech_array_16k, self.target_sr, subtype='FLOAT')
 
     def __call__(self) -> None:
         return self.convert()
@@ -45,11 +46,15 @@ if __name__ == '__main__':
         for channel in channel_list:
             try:
                 c = ConvertSamplingRate(manifest_path=f'/preproc/{dataset_dir}/{batch}/{batch_date}/{channel}/manifest.json',
-                                        data_dir=f'/preproc/{dataset_dir}/{batch}/{batch_date}/{channel}',
+                                        input_data_dir=f'/preproc/{dataset_dir}/{batch}/{batch_date}/{channel}',
+                                        output_data_dir=f'/preproc/{dataset_dir}/{batch}/{batch_date}/{channel}',
                                         target_sr=16000)
                 c()
+
+                logging.getLogger('Progress').info(f'Completed: {dataset_dir} - {batch} - {batch_date} - {channel}')
+
             except FileNotFoundError:
-                logging.getLogger('No audio folder').info(f'{dataset_dir} - {batch} - {batch_date} - {channel} (s): No audio files found in this directory')
+                logging.getLogger('No audio folder').info(f'{dataset_dir} - {batch} - {batch_date} - {channel}: No audio files found in this directory')
                 continue
     
     logging.getLogger('DONE').info('Done')
