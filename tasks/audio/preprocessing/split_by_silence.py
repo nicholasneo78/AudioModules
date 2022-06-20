@@ -67,16 +67,6 @@ class SilenceSplitter():
                         format = 'wav'
                     )
 
-                    # read the audio files again to do resampling
-                    speech_array, sr = sf.read(os.path.join(output_dir, chunk_path))
-
-                    # # remove the old audio file
-                    # os.remove(os.path.join(output_dir, chunk_path))
-
-                    # speech_array = speech_array.T
-                    # speech_array_16k = librosa.resample(speech_array, orig_sr=sr, target_sr=16000)
-                    # sf.write(os.path.join(output_dir, chunk_path), speech_array_16k, 16000)
-
                     # check if the audio < 1 second, if it is, delete and do not append to the manifest
                     if librosa.get_duration(filename=os.path.join(output_dir, chunk_path)) < 1.0:
                         os.remove(os.path.join(output_dir, chunk_path))
@@ -100,12 +90,21 @@ class SilenceSplitter():
 
 if __name__ == '__main__':
 
-    LOCAL_DIR = '/preproc/datasets/mms_batch_1/mms_20220404/CH 16'
-    OUTPUT_DIR = '/preproc/datasets_silence_removed/mms_batch_1/mms_20220404/CH 16'
-    s = SilenceSplitter(thresh=16, min_silence_len=500)
-    s(LOCAL_DIR, OUTPUT_DIR)
+    dataset_input_dir = 'datasets'
+    dataset_output_dir = 'datasets_silence_removed'
+    batch = 'mms_batch_1'
+    batch_date = 'mms_20220404'
+    channel_list = ['CH 10', 'CH 14', 'CH 16', 'CH 73']
 
-    # LOCAL_DIR = '/home/daniel/Desktop/mms/mms_20220404'
-    # OUTPUT_DIR = '/home/daniel/Desktop/mms/test'
-    # s = SilenceSplitter(thresh=16, min_silence_len=500)
-    # s(LOCAL_DIR, OUTPUT_DIR)
+    for channel in channel_list:
+        try:
+            LOCAL_DIR = f'/preproc/{dataset_input_dir}/{batch}/{batch_date}/{channel}'
+            OUTPUT_DIR = f'/preproc/{dataset_output_dir}/{batch}/{batch_date}/{channel}'
+
+            s = SilenceSplitter(thresh=16, min_silence_len=500)
+            s(LOCAL_DIR, OUTPUT_DIR)
+            print()
+
+        except FileNotFoundError:
+            print('No audio found in this directory')
+            continue

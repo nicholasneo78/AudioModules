@@ -50,7 +50,7 @@ if __name__ == '__main__':
     # other configs
     dataset_dir = 'datasets'
     batch = 'mms_batch_1'
-    batch_date = 'mms_20220404'
+    batch_date = 'mms_20220610'
 
     # check info for a single directory, specific date and channel
     if MODE == 'one_dir':
@@ -65,10 +65,11 @@ if __name__ == '__main__':
         audio_length_s, audio_length_hr, num_audio, actual_num_audio = audio_details()
 
         print()
-        logging.getLogger('Total Audio Length').info(f'{dataset_dir} - {batch} - {batch_date} - {channel} (s): {audio_length_s}')
-        logging.getLogger('Total Audio Length').info(f'{dataset_dir} - {batch} - {batch_date} - {channel}  (h): {audio_length_hr}')
-        logging.getLogger('Number of Audio').info(f'{dataset_dir} - {batch} - {batch_date} - {channel} (without empty audio): {num_audio}')
+        # logging.getLogger('Number of Audio').info(f'{dataset_dir} - {batch} - {batch_date} - {channel} (without empty audio): {num_audio}')
         logging.getLogger('Number of Audio').info(f'{dataset_dir} - {batch} - {batch_date} - {channel} (all audio files in the folder): {actual_num_audio}')
+        # logging.getLogger('Total Audio Length').info(f'{dataset_dir} - {batch} - {batch_date} - {channel} (s): {audio_length_s}')
+        logging.getLogger('Total Audio Length').info(f'{dataset_dir} - {batch} - {batch_date} - {channel}  (h): {audio_length_hr}')
+
         print()
     
     # check info for a single date
@@ -86,10 +87,10 @@ if __name__ == '__main__':
                 audio_length_s, audio_length_hr, num_audio, actual_num_audio = audio_details()
 
                 print()
-                logging.getLogger('Total Audio Length').info(f'{dataset_dir} - {batch} - {batch_date} - {channel} (s): {audio_length_s}')
-                logging.getLogger('Total Audio Length').info(f'{dataset_dir} - {batch} - {batch_date} - {channel}  (h): {audio_length_hr}')
-                logging.getLogger('Number of Audio').info(f'{dataset_dir} - {batch} - {batch_date} - {channel} (without empty audio): {num_audio}')
+                # logging.getLogger('Number of Audio').info(f'{dataset_dir} - {batch} - {batch_date} - {channel} (without empty audio): {num_audio}')
                 logging.getLogger('Number of Audio').info(f'{dataset_dir} - {batch} - {batch_date} - {channel} (all audio files in the folder): {actual_num_audio}')
+                # logging.getLogger('Total Audio Length').info(f'{dataset_dir} - {batch} - {batch_date} - {channel} (s): {audio_length_s}')
+                logging.getLogger('Total Audio Length').info(f'{dataset_dir} - {batch} - {batch_date} - {channel}  (h): {audio_length_hr}')
             
             except FileNotFoundError:
                 print()
