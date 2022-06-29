@@ -2,6 +2,8 @@ from scipy.io import wavfile
 import noisereduce as nr
 import numpy as np
 import pydub
+import os
+from tqdm import tqdm
 
 class ReduceNoise:
     '''
@@ -70,20 +72,43 @@ if __name__ == '__main__':
     # reduce_noise_audio = ReduceNoise(input_audio_path='/preproc/batched_1_hr_audio/CH10_batch_0.wav', 
     #                                  output_audio_path='/preproc/batched_1_hr_audio/CH10_batch_0_nr.wav')
 
-    # test audio
-    INPUT_AUDIO_FILEPATH = '/preproc/ch16_test.wav'
-    INTERMEDIATE_AUDIO_FILEPATH = '/preproc/ch16_test_nr.wav'
-    OUTPUT_AUDIO_FILEPATH = '/preproc/ch16_test_nr_amp.wav'
-    AMPLIFICATION = 15
+    channel = 'CH10'
+    # do the preprocessing
+    for idx in range(10):
+        INPUT_AUDIO_FILEPATH = f'/preproc/batched_1_hr_audio/{channel}_batch_{idx}.wav'
+        INTERMEDIATE_AUDIO_FILEPATH = f'/preproc/batched_1_hr_audio/intermediate.wav'
+        AMPLIFICATION = 15
 
-    # reduce noise -> increase volume method
-    reduce_noise_audio = ReduceNoise(input_audio_path=INPUT_AUDIO_FILEPATH, 
-                                     output_audio_path=INTERMEDIATE_AUDIO_FILEPATH)
+        # if true: reduce noise -> increase volume method
+        # if false: increase volume method -> reduce noise
+        reduce_noise_first = True
 
-    reduce_noise_audio()
+        # implementation
+        if reduce_noise_first:
+            OUTPUT_AUDIO_FILEPATH = f'/preproc/batched_1_hr_audio/{channel}_batch_{idx}_nr_amp.wav'
 
-    increase_volume_audio = IncreaseVolume(input_audio_path=INTERMEDIATE_AUDIO_FILEPATH, 
-                                           output_audio_path=OUTPUT_AUDIO_FILEPATH, 
-                                           amplification=15)
+            reduce_noise_audio = ReduceNoise(input_audio_path=INPUT_AUDIO_FILEPATH, 
+                                            output_audio_path=INTERMEDIATE_AUDIO_FILEPATH)
 
-    increase_volume_audio()
+            increase_volume_audio = IncreaseVolume(input_audio_path=INTERMEDIATE_AUDIO_FILEPATH, 
+                                                output_audio_path=OUTPUT_AUDIO_FILEPATH, 
+                                                amplification=AMPLIFICATION)
+
+            reduce_noise_audio()
+            increase_volume_audio()
+
+        else:
+            OUTPUT_AUDIO_FILEPATH = f'/preproc/batched_1_hr_audio/{channel}_batch_{idx}_amp_nr.wav'
+
+            increase_volume_audio = IncreaseVolume(input_audio_path=INPUT_AUDIO_FILEPATH, 
+                                                output_audio_path=INTERMEDIATE_AUDIO_FILEPATH, 
+                                                amplification=AMPLIFICATION)
+
+            reduce_noise_audio = ReduceNoise(input_audio_path=INTERMEDIATE_AUDIO_FILEPATH, 
+                                            output_audio_path=OUTPUT_AUDIO_FILEPATH)
+
+            increase_volume_audio()
+            reduce_noise_audio()
+            
+        # delete the intermediate file
+        os.remove(INTERMEDIATE_AUDIO_FILEPATH) 
