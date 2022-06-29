@@ -4,3 +4,5 @@ outputs
 *.log
 datasets/*
 datasets_silence_removed/*
+batched_1_hr_audio/
+.ipynb_checkpoints

@@ -17,4 +17,13 @@ ENV PYTHONUNBUFFERED 1
 ADD requirements.txt .
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
 
+# installing jupyter lab inside
+RUN pip install jupyterlab
+
+# declare port used by jupyterlab
+EXPOSE 8888
+
+# set default command for jupyterlab
+CMD ["jupyter" ,"lab", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--NotebookApp.token=''", "--NotebookApp.password=''", "--allow-root"]
+
 WORKDIR /preproc
