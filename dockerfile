@@ -20,6 +20,8 @@ RUN python3 -m pip install --no-cache-dir -r requirements.txt
 # installing jupyter lab inside
 RUN pip install jupyterlab
 
+RUN pip install pandas
+
 # declare port used by jupyterlab
 EXPOSE 8888
 

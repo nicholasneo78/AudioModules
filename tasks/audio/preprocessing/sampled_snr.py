@@ -85,15 +85,16 @@ class SampledSNR:
 if __name__ == '__main__':
     
     base_path = '/preproc/batched_1_hr_audio'
-    ref_name = 'CH10_batch_'
-    noisy_name = 'CH73_batch_'
+    ref_name = 'CH10_batch'
+    noisy_name = 'CH73_batch'
+    preprocessing = '_amp_nr'
 
     for num_ref in range(10):
-        for num_noisy in range(1):
-            snr = SampledSNR(referenced_audio_path=f'{base_path}/{ref_name}{num_ref}.wav', 
-                            noisy_audio_path=f'{base_path}/{noisy_name}{num_noisy}.wav', 
+        for num_noisy in range(10):
+            snr = SampledSNR(referenced_audio_path=f'{base_path}/{ref_name}_{num_ref}{preprocessing}.wav', 
+                            noisy_audio_path=f'{base_path}/{noisy_name}_{num_noisy}{preprocessing}.wav', 
                             sample_duration=3600, 
                             sampling_rate=16000)
 
-            print(f'ref: {ref_name}{num_ref} and noisy: {noisy_name}{num_noisy} -> SNR: {snr()}')
+            print(f'ref: {ref_name}_{num_ref}{preprocessing} and noisy: {noisy_name}_{num_noisy}{preprocessing} -> SNR: {snr()}')
             print()

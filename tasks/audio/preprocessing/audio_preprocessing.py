@@ -72,15 +72,15 @@ if __name__ == '__main__':
     # reduce_noise_audio = ReduceNoise(input_audio_path='/preproc/batched_1_hr_audio/CH10_batch_0.wav', 
     #                                  output_audio_path='/preproc/batched_1_hr_audio/CH10_batch_0_nr.wav')
 
-    channel = 'CH10'
+    channel = 'CH14'
     # do the preprocessing
-    for idx in range(10):
-        INPUT_AUDIO_FILEPATH = f'/preproc/batched_1_hr_audio/{channel}_batch_{idx}.wav'
+    for idx in tqdm(range(1)):
+        INPUT_AUDIO_FILEPATH = f'/preproc/batched_1_hr_audio/{channel}_batch_{idx}_upsampled.wav'
         INTERMEDIATE_AUDIO_FILEPATH = f'/preproc/batched_1_hr_audio/intermediate.wav'
         AMPLIFICATION = 15
 
-        # if true: reduce noise -> increase volume method
-        # if false: increase volume method -> reduce noise
+        # if true: reduce noise -> increase volume
+        # if false: increase volume -> reduce noise
         reduce_noise_first = True
 
         # implementation
