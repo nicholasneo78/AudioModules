@@ -13,7 +13,8 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - ./:/preproc
+      - ../:/preproc
     ulimits:
       memlock: -1 # set upper limit for how much memory is locked for the container (-1 means lock as much as the container uses)
     shm_size: 32gb # set upper limit for how much shared memory container can use
+    # command: ['/bin/bash']

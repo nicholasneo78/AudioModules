@@ -7,5 +7,5 @@ scikit-learn==1.0.2
 clearml==1.2.1
 tqdm
 noisereduce
+pandas
 #notebook dev
-
