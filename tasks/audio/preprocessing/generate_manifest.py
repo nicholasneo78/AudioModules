@@ -122,7 +122,7 @@ if __name__ == '__main__':
     batch = 'mms_batch_2'
     root_dir = f'datasets/{batch}'
     # batch_date_list = [d for d in os.listdir(root_dir)]
-    batch_date_list = ['29']
+    batch_date_list = ['mms_20220630']
     channel_list = ['CH 10', 'CH 14', 'CH 16', 'CH 73']
 
     for mms_date in batch_date_list:
