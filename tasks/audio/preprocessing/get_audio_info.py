@@ -48,8 +48,8 @@ if __name__ == '__main__':
     MODE = 'one_date' # one_dir or one_date
 
     # other configs
-    # dataset_dir = 'datasets'
-    dataset_dir = 'datasets_silence_removed'
+    dataset_dir = 'mms'
+    # dataset_dir = 'mms_silence_removed'
     batch = 'mms_batch_2'
     batch_date = 'mms_20220630'
 
@@ -57,8 +57,8 @@ if __name__ == '__main__':
     if MODE == 'one_dir':
 
         channel = 'CH 10'
-        AUDIO_DIR = f'/preproc/{dataset_dir}/{batch}/{batch_date}/{channel}'
-        MANIFEST_DIR = f'/preproc/{dataset_dir}/{batch}/{batch_date}/{channel}/manifest.json'
+        AUDIO_DIR = f'/preproc/datasets/mms/{dataset_dir}/{batch}/{batch_date}/{channel}'
+        MANIFEST_DIR = f'/preproc/datasets/mms/{dataset_dir}/{batch}/{batch_date}/{channel}/manifest.json'
 
         audio_details = GetAudioInfo(audio_dir=AUDIO_DIR, 
                                      manifest_dir=MANIFEST_DIR)
@@ -79,8 +79,8 @@ if __name__ == '__main__':
         channel_list = ['CH 10', 'CH 14', 'CH 16', 'CH 73']
         for channel in channel_list:
             try:
-                AUDIO_DIR = f'/preproc/{dataset_dir}/{batch}/{batch_date}/{channel}'
-                MANIFEST_DIR = f'/preproc/{dataset_dir}/{batch}/{batch_date}/{channel}/manifest.json'
+                AUDIO_DIR = f'/preproc/datasets/mms/{dataset_dir}/{batch}/{batch_date}/{channel}'
+                MANIFEST_DIR = f'/preproc/datasets/mms/{dataset_dir}/{batch}/{batch_date}/{channel}/manifest.json'
 
                 audio_details = GetAudioInfo(audio_dir=AUDIO_DIR, 
                                              manifest_dir=MANIFEST_DIR)

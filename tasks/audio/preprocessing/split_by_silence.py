@@ -90,16 +90,16 @@ class SilenceSplitter():
 
 if __name__ == '__main__':
 
-    dataset_input_dir = 'datasets'
-    dataset_output_dir = 'datasets_silence_removed'
+    dataset_input_dir = 'mms'
+    dataset_output_dir = 'mms_silence_removed'
     batch = 'mms_batch_2'
-    batch_date = 'mms_20220630'
+    batch_date = 'mms_20220629'
     channel_list = ['CH 10', 'CH 14', 'CH 16', 'CH 73']
 
     for channel in channel_list:
         try:
-            LOCAL_DIR = f'/preproc/{dataset_input_dir}/{batch}/{batch_date}/{channel}'
-            OUTPUT_DIR = f'/preproc/{dataset_output_dir}/{batch}/{batch_date}/{channel}'
+            LOCAL_DIR = f'/preproc/datasets/mms/{dataset_input_dir}/{batch}/{batch_date}/{channel}'
+            OUTPUT_DIR = f'/preproc/datasets/mms/{dataset_output_dir}/{batch}/{batch_date}/{channel}'
 
             s = SilenceSplitter(thresh=16, min_silence_len=500)
             s(LOCAL_DIR, OUTPUT_DIR)

@@ -101,26 +101,8 @@ class GenerateManifest:
 
 if __name__ == '__main__':
 
-    # # instantiate GenerateManifest class object
-    # get_manifest_train = GenerateManifest(root_folder="./librispeech/train/", 
-    #                                       manifest_filename="./librispeech/train/train_manifest.json", 
-    #                                       got_annotation=True)
-    # _ = get_manifest_train()
-
-    # get_manifest_dev = GenerateManifest(root_folder="./librispeech/dev/", 
-    #                                     manifest_filename="./librispeech/dev/dev_manifest.json", 
-    #                                     got_annotation=True)
-    # _ = get_manifest_dev()
-
-    # get_manifest_test = GenerateManifest(root_folder="./librispeech/test/", 
-    #                                      manifest_filename="./librispeech/test/test_manifest.json", 
-    #                                      got_annotation=True)
-    # _ = get_manifest_test()
-
-    # try out for one of the mms data folder
-
     batch = 'mms_batch_2'
-    root_dir = f'datasets/{batch}'
+    root_dir = f'/preproc/datasets/mms/mms/{batch}'
     # batch_date_list = [d for d in os.listdir(root_dir)]
     batch_date_list = ['mms_20220630']
     channel_list = ['CH 10', 'CH 14', 'CH 16', 'CH 73']
@@ -128,11 +110,10 @@ if __name__ == '__main__':
     for mms_date in batch_date_list:
         for channel in channel_list:
 
-            get_manifest = GenerateManifest(root_folder=f"../../../datasets/{batch}/{mms_date}/{channel}/", 
-                                            manifest_filename=f"../../../datasets/{batch}/{mms_date}/{channel}/manifest.json", 
+            get_manifest = GenerateManifest(root_folder=f"/preproc/datasets/mms/mms/{batch}/{mms_date}/{channel}/", 
+                                            manifest_filename=f"/preproc/datasets/mms/mms/{batch}/{mms_date}/{channel}/manifest.json", 
                                             got_annotation=False,
                                             audio_ext='.wav')
-
 
             _ = get_manifest()
 

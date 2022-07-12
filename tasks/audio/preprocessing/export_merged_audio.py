@@ -96,13 +96,13 @@ class ExportMergedAudio:
         return self.export_batched_audio()
 
 if __name__ == '__main__':
-    export_audio = ExportMergedAudio(root_dir='/preproc/datasets_silence_removed/mms_batch_1',
+    export_audio = ExportMergedAudio(root_dir='/preproc/datasets/mms/mms_silence_removed/mms_batch_2',
                                      target_channel='CH 14', 
                                      audio_split_size=1500, 
-                                     num_batches=10, 
+                                     num_batches=1, 
                                      audio_duration_per_split=1*60*60, 
-                                     export_dirname='/preproc/batched_1_hr_audio', 
-                                     export_wav_filename='CH14_batch', 
+                                     export_dirname='/preproc/datasets/mms/batched_1_hr_audio', 
+                                     export_wav_filename='CH14_batch',
                                      export_wav_format='wav')
 
     export_audio()

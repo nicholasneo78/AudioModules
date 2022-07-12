@@ -61,10 +61,6 @@ class SampledSNR:
         noise = outputSig-inputSig
         powS = self.signalPower(outputSig)
         powN = self.signalPower(noise)
-        
-        # print(f'noisy: {powS} | reference: {powN}')
-        # print((powS-powN)/powN)
-        # print(np.abs((powS-powN)/powN))
 
         return 10*np.log10(np.abs((powS-powN)/powN))
 
@@ -84,13 +80,13 @@ class SampledSNR:
 
 if __name__ == '__main__':
     
-    base_path = '/preproc/batched_1_hr_audio'
+    base_path = '/preproc/datasets/mms/batched_1_hr_audio'
     ref_name = 'CH10_batch'
-    noisy_name = 'CH73_batch'
+    noisy_name = 'CH16_batch'
     preprocessing = '_amp_nr'
 
     for num_ref in range(10):
-        for num_noisy in range(10):
+        for num_noisy in range(5):
             snr = SampledSNR(referenced_audio_path=f'{base_path}/{ref_name}_{num_ref}{preprocessing}.wav', 
                             noisy_audio_path=f'{base_path}/{noisy_name}_{num_noisy}{preprocessing}.wav', 
                             sample_duration=3600, 

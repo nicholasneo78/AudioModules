@@ -14,6 +14,9 @@ services:
     tty: true
     volumes:
       - ../:/preproc
+      # - /mnt/d/datasets/mms/mms/mms_batch_1/:/preproc/datasets/mms/mms/mms_batch_1
+      # - /mnt/d/datasets/mms/mms/mms_batch_2/:/preproc/datasets/mms/mms/mms_batch_2
+      - /mnt/d/datasets/mms/:/preproc/datasets/mms
     ulimits:
       memlock: -1 # set upper limit for how much memory is locked for the container (-1 means lock as much as the container uses)
     shm_size: 32gb # set upper limit for how much shared memory container can use

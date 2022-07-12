@@ -72,43 +72,62 @@ if __name__ == '__main__':
     # reduce_noise_audio = ReduceNoise(input_audio_path='/preproc/batched_1_hr_audio/CH10_batch_0.wav', 
     #                                  output_audio_path='/preproc/batched_1_hr_audio/CH10_batch_0_nr.wav')
 
-    channel = 'CH14'
+    channel = 'CH 16-small'
+    input_dir = f'/preproc/datasets/mms/trial_audio/{channel}'
+    output_dir = f'/preproc/datasets/mms/trial_audio_preproc/{channel}'
+
+    for audio in tqdm(os.listdir(input_dir)):
+        if audio.endswith('.wav'):
+            reduce_noise_audio = ReduceNoise(input_audio_path=os.path.join(input_dir, audio), 
+                                             output_audio_path=os.path.join(output_dir, audio))
+
+            increase_volume_audio = IncreaseVolume(input_audio_path=os.path.join(output_dir, audio), 
+                                                   output_audio_path=os.path.join(output_dir, audio), 
+                                                   amplification=15)
+
+            reduce_noise_audio()
+            increase_volume_audio()
+
+    
     # do the preprocessing
-    for idx in tqdm(range(1)):
-        INPUT_AUDIO_FILEPATH = f'/preproc/batched_1_hr_audio/{channel}_batch_{idx}_upsampled.wav'
-        INTERMEDIATE_AUDIO_FILEPATH = f'/preproc/batched_1_hr_audio/intermediate.wav'
-        AMPLIFICATION = 15
 
-        # if true: reduce noise -> increase volume
-        # if false: increase volume -> reduce noise
-        reduce_noise_first = True
+    # channel = 'CH10'
+    # # do the preprocessing
+    # for idx in tqdm(range(1)):
+    #     INPUT_AUDIO_FILEPATH = f'/preproc/datasets/mms/batched_1_hr_audio/{channel}_batch_{idx}.wav'
+    #     INTERMEDIATE_AUDIO_FILEPATH = f'/preproc/datasets/mms/batched_1_hr_audio/intermediate.wav'
+    #     AMPLIFICATION = 15
 
-        # implementation
-        if reduce_noise_first:
-            OUTPUT_AUDIO_FILEPATH = f'/preproc/batched_1_hr_audio/{channel}_batch_{idx}_nr_amp.wav'
+    #     # if true: reduce noise -> increase volume
+    #     # if false: increase volume -> reduce noise
+    #     reduce_noise_first = True
 
-            reduce_noise_audio = ReduceNoise(input_audio_path=INPUT_AUDIO_FILEPATH, 
-                                            output_audio_path=INTERMEDIATE_AUDIO_FILEPATH)
+    #     # implementation
+    #     if reduce_noise_first:
+    #         OUTPUT_AUDIO_FILEPATH = f'/preproc/datasets/mms/batched_1_hr_audio/{channel}_batch_{idx}_nr_amp.wav'
 
-            increase_volume_audio = IncreaseVolume(input_audio_path=INTERMEDIATE_AUDIO_FILEPATH, 
-                                                output_audio_path=OUTPUT_AUDIO_FILEPATH, 
-                                                amplification=AMPLIFICATION)
+    #         reduce_noise_audio = ReduceNoise(input_audio_path=INPUT_AUDIO_FILEPATH, 
+    #                                         output_audio_path=INTERMEDIATE_AUDIO_FILEPATH)
 
-            reduce_noise_audio()
-            increase_volume_audio()
+    #         increase_volume_audio = IncreaseVolume(input_audio_path=INTERMEDIATE_AUDIO_FILEPATH, 
+    #                                             output_audio_path=OUTPUT_AUDIO_FILEPATH, 
+    #                                             amplification=AMPLIFICATION)
 
-        else:
-            OUTPUT_AUDIO_FILEPATH = f'/preproc/batched_1_hr_audio/{channel}_batch_{idx}_amp_nr.wav'
+    #         reduce_noise_audio()
+    #         increase_volume_audio()
 
-            increase_volume_audio = IncreaseVolume(input_audio_path=INPUT_AUDIO_FILEPATH, 
-                                                output_audio_path=INTERMEDIATE_AUDIO_FILEPATH, 
-                                                amplification=AMPLIFICATION)
+    #     else:
+    #         OUTPUT_AUDIO_FILEPATH = f'/preproc/datasets/mms/batched_1_hr_audio/{channel}_batch_{idx}_amp_nr.wav'
 
-            reduce_noise_audio = ReduceNoise(input_audio_path=INTERMEDIATE_AUDIO_FILEPATH, 
-                                            output_audio_path=OUTPUT_AUDIO_FILEPATH)
+    #         increase_volume_audio = IncreaseVolume(input_audio_path=INPUT_AUDIO_FILEPATH, 
+    #                                             output_audio_path=INTERMEDIATE_AUDIO_FILEPATH, 
+    #                                             amplification=AMPLIFICATION)
 
-            increase_volume_audio()
-            reduce_noise_audio()
+    #         reduce_noise_audio = ReduceNoise(input_audio_path=INTERMEDIATE_AUDIO_FILEPATH, 
+    #                                         output_audio_path=OUTPUT_AUDIO_FILEPATH)
+
+    #         increase_volume_audio()
+    #         reduce_noise_audio()
             
-        # delete the intermediate file
-        os.remove(INTERMEDIATE_AUDIO_FILEPATH) 
+    #     # delete the intermediate file
+    #     os.remove(INTERMEDIATE_AUDIO_FILEPATH) 
