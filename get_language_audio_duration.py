@@ -35,15 +35,17 @@ class LanguageDuration:
         return self.language_duration()
 
 if __name__ == '__main__':
+
+    JSON_FILE = 'mms_20220417.json'
     
     # english
-    l = LanguageDuration(annotation_filepath='mms_20220417.json', 
+    l = LanguageDuration(annotation_filepath=JSON_FILE, 
                          target_language='english')
 
     l()
 
     # bahasa
-    l = LanguageDuration(annotation_filepath='mms_20220417.json', 
+    l = LanguageDuration(annotation_filepath=JSON_FILE, 
                          target_language='bahasa')
 
     l()
