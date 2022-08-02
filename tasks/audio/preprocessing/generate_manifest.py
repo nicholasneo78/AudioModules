@@ -101,10 +101,10 @@ class GenerateManifest:
 
 if __name__ == '__main__':
 
-    batch = 'mms_batch_2'
+    batch = 'mms_batch_3'
     root_dir = f'/preproc/datasets/mms/mms/{batch}'
     # batch_date_list = [d for d in os.listdir(root_dir)]
-    batch_date_list = ['mms_20220630']
+    batch_date_list = ['mms_20220727']
     channel_list = ['CH 10', 'CH 14', 'CH 16', 'CH 73']
 
     for mms_date in batch_date_list:

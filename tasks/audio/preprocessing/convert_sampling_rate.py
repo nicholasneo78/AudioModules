@@ -37,9 +37,9 @@ if __name__ == '__main__':
 
     # other configs
     dataset_dir = 'mms'
-    batch = 'mms_batch_2'
-    root_dir = f'/preproc/datasets/{dataset_dir}/{batch}'
-    batch_date_list =  [d for d in os.listdir(root_dir)] # 'mms_20220404'
+    batch = 'mms_batch_3'
+    root_dir = f'/preproc/datasets/mms/{dataset_dir}/{batch}'
+    batch_date_list =  [d for d in os.listdir(root_dir)] # ['mms_20220404']
     channel_list = ['CH 10', 'CH 14', 'CH 16', 'CH 73']
 
     for batch_date in batch_date_list:

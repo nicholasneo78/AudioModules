@@ -41,7 +41,6 @@ class GetAudioInfo:
         audio_count_actual = self.get_actual_number_of_audio_files()
         return audio_s, audio_hr, audio_count_no_empty_audio, audio_count_actual
 
-
 if __name__ == '__main__':
 
     # choose the mode to get the channel informations
@@ -50,8 +49,8 @@ if __name__ == '__main__':
     # other configs
     dataset_dir = 'mms'
     # dataset_dir = 'mms_silence_removed'
-    batch = 'mms_batch_2'
-    batch_date = 'mms_20220630'
+    batch = 'mms_batch_3'
+    batch_date = 'mms_20220727'
 
     # check info for a single directory, specific date and channel
     if MODE == 'one_dir':
