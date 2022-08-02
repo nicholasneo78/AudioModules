@@ -9,4 +9,4 @@ tqdm
 noisereduce
 pandas
 audiomentations
-#notebook dev
+torch-audiomentations
