@@ -77,8 +77,10 @@ class LanguageDuration:
 
 if __name__ == '__main__':
 
-    JSON_FILE = 'annotations/mms_20220430-part.json'
+    JSON_FILE = '/preproc/datasets/mms/mms/mms_batch_1/annotations/mms_20220430-part.json'
     CHANNEL_LIST = ['CH 10', 'CH 14', 'CH 16', 'CH 73']
+
+    print()
     
     for ch in CHANNEL_LIST:
         # english
