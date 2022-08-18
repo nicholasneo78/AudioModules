@@ -7,9 +7,9 @@ logging.basicConfig(level=logging.INFO,
                     format='[%(levelname)5s][%(asctime)s][%(name)s]: %(message)s',
                     datefmt='%H:%M:%S')
 
-class LanguageDuration:
+class GetAnnotatedAudioDuration:
     '''
-        Get the duration of the annotated audio in the target language
+        Get the duration of the annotated audio in the target language, with the json annotation file
     '''
 
     def __init__(self, annotation_filepath: str, channel: str, target_language: str, display_duration: str) -> None:
@@ -84,18 +84,18 @@ if __name__ == '__main__':
     
     for ch in CHANNEL_LIST:
         # english
-        l = LanguageDuration(annotation_filepath=JSON_FILE, 
-                            channel=ch,
-                            target_language='english',
-                            display_duration='h')
+        l = GetAnnotatedAudioDuration(annotation_filepath=JSON_FILE, 
+                                      channel=ch,
+                                      target_language='english',
+                                      display_duration='h')
 
         l()
 
         # bahasa
-        l = LanguageDuration(annotation_filepath=JSON_FILE, 
-                            channel=ch,
-                            target_language='bahasa',
-                            display_duration='m')
+        l = GetAnnotatedAudioDuration(annotation_filepath=JSON_FILE, 
+                                      channel=ch,
+                                      target_language='bahasa',
+                                      display_duration='m')
 
         l()
 
