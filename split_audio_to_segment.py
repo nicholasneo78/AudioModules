@@ -148,7 +148,7 @@ class SplitAudioToSegment:
 
 
 if __name__ == '__main__':
-    split = SplitAudioToSegment(annotation_dir='/preproc/datasets/mms/mms/mms_batch_1/annotations/mms_20220417.json', 
+    split = SplitAudioToSegment(annotation_dir='/preproc/datasets/mms/mms/mms_batch_1/annotations/mms_20220430.json', 
                                 raw_base_dir='/data/local-files/?d=local_data/', 
                                 replaced_base_dir='/preproc/datasets/mms/mms/mms_batch_1/', 
                                 original_folder='mms', 
