@@ -25,7 +25,6 @@ class GetAnnotatedAudioDuration:
         self.target_language = target_language
         self.display_duration = display_duration
 
-
     def language_duration(self) -> None:
         
         # initiate the audio duration count for that particular language

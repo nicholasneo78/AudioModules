@@ -1,4 +1,3 @@
-# imports
 import os
 from os.path import join
 import numpy as np
@@ -6,8 +5,11 @@ import json
 import librosa
 from pathlib import Path
 
-# build a class to produce the librispeech data manifest
 class GenerateManifest:
+
+    '''
+        build a class to produce the librispeech data manifest
+    '''
     
     def __init__(self, root_folder, manifest_filename, got_annotation, audio_ext):
         self.root_folder = root_folder

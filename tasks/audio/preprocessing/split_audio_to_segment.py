@@ -5,6 +5,7 @@ from tqdm import tqdm
 import numpy as np
 import pydub
 from typing import List
+from pathlib import Path
 
 # Setup logging in a nice readable format
 logging.basicConfig(level=logging.INFO,
@@ -141,14 +142,14 @@ class SplitAudioToSegment:
                                                    sample_width=sound_file.sample_width,
                                                    channels=1)
 
-                audio_segment.export(f'{edited_dir}/{lang_id}/{filename}_{idx_seg}', format='wav')
+                audio_segment.export(f'{edited_dir}/{lang_id}/' + Path(filename).stem + f'_{idx_seg}.wav', format='wav')
 
     def __call__(self) -> None:
         return self.split_to_segment()
 
 
 if __name__ == '__main__':
-    split = SplitAudioToSegment(annotation_dir='/preproc/datasets/mms/mms/mms_batch_1/annotations/mms_20220430.json', 
+    split = SplitAudioToSegment(annotation_dir='/preproc/datasets/mms/mms/mms_batch_1/annotations/mms_20220417.json', 
                                 raw_base_dir='/data/local-files/?d=local_data/', 
                                 replaced_base_dir='/preproc/datasets/mms/mms/mms_batch_1/', 
                                 original_folder='mms', 
